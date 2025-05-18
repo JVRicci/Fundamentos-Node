@@ -1,0 +1,54 @@
+import { randomUUID } from "node:crypto"
+import { Database } from "../database/database.js"
+import { buildRoutePath } from "../utils/build-route-path.js";
+
+const database = new Database()
+
+export const routes = [
+    {
+        method: 'GET',
+        path: buildRoutePath('/users'),
+        handler: (req, res) => {
+            const users = database.select('users');
+
+            return res.end(JSON.stringify(users))
+        }
+    },
+
+    {
+        method: 'POST',
+        path: buildRoutePath('/users'),
+        handler: (req, res) => {
+            const { name, email } = req.body 
+            
+            const user ={
+                id : randomUUID(),
+                name,
+                email
+            }
+
+            database.insert('users', user)
+
+            return res
+            .writeHead(201).
+            end('Usuário criado com sucesso')
+        }
+    },
+
+    {
+        method: 'DELETE',
+        path: buildRoutePath('/users/:id'),
+        handler: (req, res) => {
+
+            return
+        }
+    }
+]
+
+// Query parameters : parametros passados via url, junto com o nome. URL Stateful
+// Exemplo: /users?nome=juaum
+
+//Route parameters: Parametros não nomeados que ficam na URL
+// Exemplo: /users/1
+
+//Request body: argumentos são enviados por corpo de requisição, não por URL
