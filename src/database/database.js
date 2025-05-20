@@ -19,6 +19,7 @@ export class Database{
         })
     }
 
+    // Salva de fato as operações feitas no banco de dados
     #persist () {
         fs.writeFile(databasePath,
             JSON.stringify(this.#database))
@@ -39,5 +40,14 @@ export class Database{
         this.#persist();
 
         return data; 
+    }
+
+    delete (table, id){
+        const rowIndex = this.#database[table].findIndex((row) => row.id === id)
+
+        if( rowIndex > -1) {
+            this.#database[table].splice(rowIndex, 1)
+            this.#persist()
+        }
     }
 }
