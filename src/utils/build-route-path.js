@@ -1,7 +1,7 @@
 export function buildRoutePath(path) {
 
     // Faz verificação de id na url, através de uma regex.
-    //Ele verifica se depois de /: existem palavras (apenas letras)
+    // Ele verifica se depois de /: existem palavras (apenas letras)
     //  o g faz com que ele faça verificação mais de uma vez, não somente na primeira ocorrência
     const routeParametersRegex = /:([a-zA-Z]+)/g
     // O $1 ajuda a fazer com que o valor coletado na url seja um route param

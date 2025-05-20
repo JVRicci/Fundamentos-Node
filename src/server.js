@@ -11,8 +11,7 @@ const database = new Database()
 
 const server = http.createServer(async (req, res)=> {
     
-    // Executa desestruturação para saber 
-    // o metodo e a url que estão sendo chamados
+    // Executa desestruturação para saber o metodo e a url que estão sendo chamados
     const {method, url} = req
 
     await json(req, res)
@@ -25,8 +24,6 @@ const server = http.createServer(async (req, res)=> {
         console.log("Method: "+route.method+" - Route: "+req.url)
 
         const routeParams = req.url.match (route.path)
-        
-        // console.log(routeParams)
 
         // Coleta os route params e armazena dentro de req.params
         req.params = {...routeParams.groups}
