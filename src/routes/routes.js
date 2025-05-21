@@ -11,7 +11,7 @@ export const routes = [
         handler: (req, res) => {
             const users = database.select('users');
 
-            return res.end(JSON.stringify(users))
+            return res.writeHead(200).end(JSON.stringify(users))
         }
     },
 
@@ -32,6 +32,22 @@ export const routes = [
             return res
             .writeHead(201).
             end('Usuário criado com sucesso')
+        }
+    },
+
+    {
+        method:'PUT',
+        path: buildRoutePath('/users/:id'),
+        handler:  (req, res) => {
+            const { id } = req.params
+            const { name, email } = req.body
+
+            database.update('users', id, {
+                name,
+                email,
+            })
+            
+            return res.writeHead(204).end()
         }
     },
 
