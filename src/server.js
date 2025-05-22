@@ -3,6 +3,7 @@ import http from 'node:http'
 import { json } from './middlewares/json.js'
 import { Database } from './database/database.js'
 import { routes } from './routes/routes.js'
+import { extractQueryParams } from './utils/extract-query-params.js'
 
 // Aplicação Stateless (não armazena infos no banco, apenas em tempo de execução)
 // Aplicação Statefull (Armazena todos os registros em banco, com dados persistentes)
@@ -25,8 +26,10 @@ const server = http.createServer(async (req, res)=> {
 
         const routeParams = req.url.match (route.path)
 
-        // Coleta os route params e armazena dentro de req.params
-        req.params = {...routeParams.groups}
+        const { query, ...params } = routeParams.groups
+
+        req.params = params
+        req.query = query ? extractQueryParams(query) : {}
 
         return route.handler(req, res) 
     }
